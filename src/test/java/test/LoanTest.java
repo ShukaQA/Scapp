@@ -1,3 +1,5 @@
+package test;
+
 import application.pages.*;
 import drivers.DriverManager;
 import org.testng.annotations.AfterMethod;
@@ -17,17 +19,18 @@ public class LoanTest {
         autoLoanFirstStepPage.clickContinue();
         loginPage.login("gaga", "123", "1234");
 
-        requestLoanPage.clickAgreeBtn();
-        requestLoanPage.clickAllow();
+        requestLoanPage.clickNotNowBtn();
+        requestLoanPage.clickCloseAuthSetup();
+
         requestLoanPage.goToLoanPage();
         requestLoanPage.clickAutoLoan();
 
         autoLoanFirstStepPage.fillLoanAmountField("1000");
-        autoLoanFirstStepPage.fillLoanPaymentDurationField("5");
-        autoLoanFirstStepPage.openPaymentCalendar();
-        autoLoanFirstStepPage.clickCalendarOkayButton();
         autoLoanFirstStepPage.clickChooseFilialDropDown();
         autoLoanFirstStepPage.selectOption("პეკინი");
+        autoLoanFirstStepPage.openPaymentCalendar();
+        autoLoanFirstStepPage.clickCalendarOkayButton();
+        autoLoanFirstStepPage.fillLoanPaymentDurationField("5");
         autoLoanFirstStepPage.clickContinue();
 
         autoLoanSecondStepPage.clickManufacturerDropdownButton();
@@ -36,13 +39,12 @@ public class LoanTest {
         autoLoanSecondStepPage.selectOption("X5");
         autoLoanSecondStepPage.clickReleaseYearDropdownButton();
         autoLoanFirstStepPage.selectOption("2004");
-        autoLoanSecondStepPage.clickDieselTypeDropdown();
+        autoLoanSecondStepPage.clickFuelTypeDropdown();
         autoLoanFirstStepPage.selectOption("ბენზინი");
         autoLoanSecondStepPage.setDistanceInput("13000");
         autoLoanThirdStepPage.scrollToEndOfPage();
         autoLoanSecondStepPage.clickCustomsClearedDropdown();
         autoLoanFirstStepPage.selectOption("არა");
-
         autoLoanFirstStepPage.clickContinue();
 
         autoLoanThirdStepPage.attachPhotoFromGallery(4);
@@ -50,7 +52,7 @@ public class LoanTest {
         autoLoanThirdStepPage.attachPhotoFromGallery(4);
         autoLoanThirdStepPage.submitLoanRequest();
 
-        autoLoanThirdStepPage.scrollToEndOfPage();
+        autoLoanThirdStepPage.scrollDownToBottom();
         autoLoanThirdStepPage.clickISubmitLoanButton();
         autoLoanThirdStepPage.clickLoanHistoryButton();
 

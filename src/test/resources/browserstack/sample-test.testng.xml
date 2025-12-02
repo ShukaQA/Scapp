@@ -4,7 +4,7 @@
 
     <test name="MobileTests">
         <classes>
-            <class name="LoanTest"/>
+            <class name="test.LoanTest"/>
             <class name="LogoutTest"/>
         </classes>
     </test>

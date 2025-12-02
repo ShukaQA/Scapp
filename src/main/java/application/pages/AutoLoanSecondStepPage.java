@@ -4,12 +4,12 @@ import org.openqa.selenium.By;
 
 public class AutoLoanSecondStepPage extends BasePage {
 
-    private final By manufacturerDropdownButton = By.xpath("//android.widget.ScrollView/android.view.View[2]");
-    private final By modelDropdownButton = By.xpath("//android.widget.ScrollView/android.view.View[4]");
-    private final By releaseYearDropdownButton  = By.xpath("//*[@content-desc='გამოშვების წელი:']");
-    private final By dieselTypeDropdown = By.xpath("//*[@content-desc='საწვავის ტიპი:']");
-    private final By distanceInput = By.xpath("//*[@hint='გარბენი:']");
-    private final By customsClearedDropdown = By.xpath("//*[@content-desc='განბაჟებული:']");
+    private final By manufacturerDropdownButton = By.xpath("//*[@resource-id='auto_loan_brand_dropdown']");
+    private final By modelDropdownButton = By.xpath("//*[@resource-id='auto_loan_model_dropdown']");
+    private final By releaseYearDropdownButton = By.xpath("//*[@resource-id='auto_loan_year_dropdown']");
+    private final By fuelTypeDropdown = By.xpath("//*[@resource-id='auto_loan_fuel_type_dropdown']");
+    private final By distanceInput = By.xpath("//*[@resource-id='auto_loan_mileage_field']/*");
+    private final By customsClearedDropdown = By.xpath("//*[@resource-id='auto_loan_customs_dropdown']");
 
     public void clickManufacturerDropdownButton() {
         click(manufacturerDropdownButton);
@@ -28,9 +28,8 @@ public class AutoLoanSecondStepPage extends BasePage {
         click(releaseYearDropdownButton);
     }
 
-
-    public void clickDieselTypeDropdown() {
-        click(dieselTypeDropdown);
+    public void clickFuelTypeDropdown() {
+        click(fuelTypeDropdown);
     }
 
     public void setDistanceInput(String amount) {

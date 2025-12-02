@@ -6,16 +6,16 @@ public class AutoLoanThirdStepPage extends BasePage {
 
     private final By attachPhotoButton = By.xpath("(//*[@content-desc='მიამაგრე ფოტო'])[1]");
     private final By phoneGalleryOption = By.xpath("//*[@content-desc='ტელეფონის გალერეა']");
-    private final By firstPhoto = By.xpath("//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[5]/android.view.View[2]/android.view.View[2]/android.view.View");
-    private final By requestLoanButton = By.xpath("//android.widget.Button[@content-desc='მოითხოვე სესხი']");
-    private final By iSubmitLoanButton = By.xpath("//*[@content-desc='ვადასტურებ']");
+    private final By firstPhoto = By.xpath("//*[contains(@resource-id, 'thumbnail')]");
+    private final By requestLoanButton = By.xpath("//*[@content-desc='მოითხოვე სესხი']");
+    private final By iSubmitLoanButton = By.xpath("//*[@resource-id='auto_loan_continue_submit_button']");
     private final By loanHistoryButton = By.xpath("//*[@content-desc='განაცხადების ისტორია']");
 
     public void attachPhotoFromGallery(int times) {
         for (int i = 0; i < times; i++) {
             waitUntilClickable(attachPhotoButton).click();
             waitUntilClickable(phoneGalleryOption).click();
-            waitUntilClickable(firstPhoto).click();
+            clickByIndex(firstPhoto, 1);
         }
     }
 
