@@ -1,47 +1,57 @@
 package application.pages;
 
+import application.elements.MobileElement;
+import core.MobileActions;
 import org.openqa.selenium.By;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openqa.selenium.Dimension;
 
 public class AutoLoanThirdStepPage extends BasePage {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoLoanThirdStepPage.class);
+    private final MobileElement attachPhotoButton = new MobileElement(By.xpath("(//*[@content-desc='მიამაგრე ფოტო'])[1]"));
+    private final MobileElement phoneGalleryOption = new MobileElement(By.xpath("//*[@content-desc='ტელეფონის გალერეა']"));
+    private final MobileElement firstPhoto = new MobileElement(By.xpath("//*[contains(@resource-id, 'thumbnail')]"));
+    private final MobileElement requestLoanButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_continue_submit_button']"));
+    private final MobileElement iSubmitLoanButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_credit_info_confirm_button']"));
+    private final MobileElement loanHistoryButton = new MobileElement(By.xpath("//*[@content-desc='განაცხადების ისტორია']"));
+    private final MobileElement loaderPath = new MobileElement(By.xpath("//*[contains(@resource-id, 'გთხოვთ დაელოდოთ')]"));
 
-    private final By attachPhotoButton = By.xpath("(//*[@content-desc='მიამაგრე ფოტო'])[1]");
-    private final By phoneGalleryOption = By.xpath("//*[@content-desc='ტელეფონის გალერეა']");
-    private final By firstPhoto = By.xpath("//*[contains(@resource-id, 'thumbnail')]");
-    private final By requestLoanButton = By.xpath("//*[@resource-id='auto_loan_continue_submit_button']");
-    private final By iSubmitLoanButton = By.xpath("//*[@resource-id='auto_loan_credit_info_confirm_button']");
-    private final By loanHistoryButton = By.xpath("//*[@content-desc='განაცხადების ისტორია']");
+    private final MobileActions actions = new MobileActions();
 
     public void attachPhotoFromGallery(int times) {
-        log.info("Attaching {} photo(s) from gallery", times);
+        logStep("Attaching " + times + " photo(s) from gallery");
         for (int i = 0; i < times; i++) {
-            log.info("Attaching photo #{}", i + 1);
-            waitUntilClickable(attachPhotoButton).click();
-            waitUntilClickable(phoneGalleryOption).click();
-            clickByIndex(firstPhoto, 1);
+            logStep("Attaching photo #" + (i + 1));
+            attachPhotoButton.click();
+            phoneGalleryOption.click();
+            firstPhoto.clickByIndex(1);
         }
     }
 
-    public void scrollToEndOfPage() {
-        log.info("Scrolling to the end of the page");
-        scrollToEnd();
-    }
-
     public void submitLoanRequest() {
-        log.info("Clicking 'Request Loan' button");
-        waitUntilClickable(requestLoanButton).click();
+        logStep("Clicking 'Request Loan' button");
+        requestLoanButton.click();
     }
 
     public void clickISubmitLoanButton() {
-        log.info("Clicking 'I Submit Loan' button");
-        waitUntilClickable(iSubmitLoanButton).click();
+        logStep("Clicking 'I Submit Loan' button");
+        iSubmitLoanButton.click();
     }
 
     public void clickLoanHistoryButton() {
-        log.info("Clicking 'Loan History' button");
-        waitUntilClickable(loanHistoryButton).click();
+        logStep("Clicking 'Loan History' button");
+        loanHistoryButton.click();
+    }
+
+    public void swipeUpScreen() {
+        logStep("Swiping up the screen.");
+
+        Dimension size = driver.manage().window().getSize();
+        actions.swipe(
+                size.width / 2,
+                (int) (size.height * 0.7),
+                size.width / 2,
+                10,
+                500
+        );
     }
 }

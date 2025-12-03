@@ -1,53 +1,50 @@
 package application.pages;
 
+import application.elements.MobileElement;
 import org.openqa.selenium.By;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AutoLoanSecondStepPage extends BasePage {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoLoanSecondStepPage.class);
-
-    private final By manufacturerDropdownButton = By.xpath("//*[@resource-id='auto_loan_brand_dropdown']");
-    private final By modelDropdownButton = By.xpath("//*[@resource-id='auto_loan_model_dropdown']");
-    private final By releaseYearDropdownButton = By.xpath("//*[@resource-id='auto_loan_year_dropdown']");
-    private final By fuelTypeDropdown = By.xpath("//*[@resource-id='auto_loan_fuel_type_dropdown']");
-    private final By distanceInput = By.xpath("//*[@resource-id='auto_loan_mileage_field']/*");
-    private final By customsClearedDropdown = By.xpath("//*[@resource-id='auto_loan_customs_dropdown']");
+    private final MobileElement manufacturerDropdownButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_brand_dropdown']"));
+    private final MobileElement modelDropdownButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_model_dropdown']"));
+    private final MobileElement releaseYearDropdownButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_year_dropdown']"));
+    private final MobileElement fuelTypeDropdown = new MobileElement(By.xpath("//*[@resource-id='auto_loan_fuel_type_dropdown']"));
+    private final MobileElement distanceInput = new MobileElement(By.xpath("//*[@resource-id='auto_loan_mileage_field']/*"));
+    private final MobileElement customsClearedDropdown = new MobileElement(By.xpath("//*[@resource-id='auto_loan_customs_dropdown']"));
 
     public void clickManufacturerDropdownButton() {
-        log.info("Clicking Manufacturer dropdown button");
-        click(manufacturerDropdownButton);
+        logStep("Clicking Manufacturer dropdown button");
+        manufacturerDropdownButton.click();
     }
 
     public void selectOption(String carName) {
-        log.info("Selecting option '{}'", carName);
-        String xpath = String.format("//*[@content-desc='%s']", carName);
-        click(By.xpath(xpath));
+        logStep("Selecting option '" + carName + "' from dropdown");
+        MobileElement optionElement = new MobileElement(By.xpath(String.format("//*[@content-desc='%s']", carName)));
+        optionElement.click();
     }
 
     public void clickModelDropdownButton() {
-        log.info("Clicking Model dropdown button");
-        click(modelDropdownButton);
+        logStep("Clicking Model dropdown button");
+        modelDropdownButton.click();
     }
 
     public void clickReleaseYearDropdownButton() {
-        log.info("Clicking Release Year dropdown button");
-        click(releaseYearDropdownButton);
+        logStep("Clicking Release Year dropdown button");
+        releaseYearDropdownButton.click();
     }
 
     public void clickFuelTypeDropdown() {
-        log.info("Clicking Fuel Type dropdown");
-        click(fuelTypeDropdown);
+        logStep("Clicking Fuel Type dropdown");
+        fuelTypeDropdown.click();
     }
 
     public void setDistanceInput(String amount) {
-        log.info("Setting Distance (mileage) input field to '{}'", amount);
-        type(distanceInput, amount);
+        logStep("Setting Distance (mileage) input field to '" + amount + "'");
+        distanceInput.type(amount);
     }
 
     public void clickCustomsClearedDropdown() {
-        log.info("Clicking Customs Cleared dropdown");
-        click(customsClearedDropdown);
+        logStep("Clicking Customs Cleared dropdown");
+        customsClearedDropdown.click();
     }
 }

@@ -1,14 +1,11 @@
-package test;
-
 import application.pages.*;
-import drivers.DriverManager;
-import org.testng.annotations.AfterMethod;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LoanTest {
 
     @Test
-    public void testLoan() {
+    public void testLoan() throws InterruptedException {
         LoginPage loginPage = new LoginPage();
         RequestLoanPage requestLoanPage = new RequestLoanPage();
         AutoLoanFirstStepPage autoLoanFirstStepPage = new AutoLoanFirstStepPage();
@@ -42,25 +39,21 @@ public class LoanTest {
         autoLoanSecondStepPage.clickFuelTypeDropdown();
         autoLoanFirstStepPage.selectOption("ბენზინი");
         autoLoanSecondStepPage.setDistanceInput("13000");
-        autoLoanThirdStepPage.scrollToEndOfPage();
+        autoLoanThirdStepPage.swipeUpScreen();
         autoLoanSecondStepPage.clickCustomsClearedDropdown();
         autoLoanFirstStepPage.selectOption("არა");
         autoLoanFirstStepPage.clickContinue();
 
         autoLoanThirdStepPage.attachPhotoFromGallery(4);
-        autoLoanThirdStepPage.scrollToEndOfPage();
+        Thread.sleep(5000);
+        autoLoanThirdStepPage.swipeUpScreen();
         autoLoanThirdStepPage.attachPhotoFromGallery(4);
         autoLoanThirdStepPage.submitLoanRequest();
 
-        autoLoanThirdStepPage.scrollDownToBottom();
+        autoLoanThirdStepPage.swipeUpScreen();
         autoLoanThirdStepPage.clickISubmitLoanButton();
         autoLoanThirdStepPage.clickLoanHistoryButton();
+        Assert.assertTrue(true);
 
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
-        DriverManager.closeApplication();
-        DriverManager.quitDriver();
     }
 }

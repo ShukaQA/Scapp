@@ -1,35 +1,32 @@
 package application.pages;
 
+import application.elements.MobileElement;
 import org.openqa.selenium.By;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LoginPage extends BasePage {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginPage.class);
-
-    private final By usernameField = By.xpath("//*[@resource-id='login_username_field' or @name='login_username_field']/*");
-    private final By passwordField = By.xpath("//*[@resource-id='login_password_field' or @name='login_password_field']/*");
-    private final By loginBtn = By.xpath("//*[@resource-id='login_submit_button' or @name='login_submit_button']");
-    private final By pinField = By.xpath("//*[@resource-id='sms_code_field']/*");
-    private final By smsSubmitButton = By.xpath("//*[@content-desc='შესვლა']");
+    private final MobileElement usernameField = new MobileElement(By.xpath("//*[@resource-id='login_username_field' or @name='login_username_field']/*"));
+    private final MobileElement passwordField = new MobileElement(By.xpath("//*[@resource-id='login_password_field' or @name='login_password_field']/*"));
+    private final MobileElement loginBtn = new MobileElement(By.xpath("//*[@resource-id='login_submit_button' or @name='login_submit_button']"));
+    private final MobileElement pinField = new MobileElement(By.xpath("//*[@resource-id='sms_code_field']/*"));
+    private final MobileElement smsSubmitButton = new MobileElement(By.xpath("//*[@content-desc='შესვლა']"));
 
     public void login(String username, String password, String pin) {
-        log.info("Logging in with username: {}", username);
-        type(usernameField, username);
+        logStep("Logging in with username: " + username);
+        usernameField.type(username);
 
-        log.info("Typing password.");
-        type(passwordField, password);
+        logStep("Typing password.");
+        passwordField.type(password);
 
-        log.info("Clicking Login button.");
-        click(loginBtn);
+        logStep("Clicking Login button.");
+        loginBtn.click();
 
-        log.info("Entering SMS PIN.");
-        type(pinField, pin);
+        logStep("Entering SMS PIN.");
+        pinField.type(pin);
 
-        log.info("Clicking SMS Submit button.");
-        click(smsSubmitButton);
+        logStep("Clicking SMS Submit button.");
+        smsSubmitButton.click();
 
-        log.info("Login flow completed.");
+        logStep("Login flow completed.");
     }
 }

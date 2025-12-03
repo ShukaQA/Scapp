@@ -1,7 +1,6 @@
 package utils;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,15 +8,12 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-    private static final Logger log = LoggerFactory.getLogger(ConfigReader.class);
-
-    private static Properties properties;
+    private static final Logger log = LoggerHelper.getLogger(ConfigReader.class);
+    private static final Properties properties = new Properties();
 
     static {
-        try {
+        try (FileInputStream fis = new FileInputStream("src/main/resources/mobile.properties")) {
             log.info("Loading configuration from mobile.properties...");
-            FileInputStream fis = new FileInputStream("src/main/resources/mobile.properties");
-            properties = new Properties();
             properties.load(fis);
             log.info("Configuration loaded successfully.");
         } catch (IOException e) {
@@ -34,7 +30,6 @@ public class ConfigReader {
         }
 
         String propValue = properties.getProperty(key);
-
         if (propValue == null) {
             log.warn("Config key '{}' not found in properties or environment!", key);
         } else {
@@ -52,7 +47,6 @@ public class ConfigReader {
         }
 
         String propValue = properties.getProperty(key);
-
         if (propValue == null) {
             log.warn("Config key '{}' not found. Using default value.", key);
             return defaultValue;
