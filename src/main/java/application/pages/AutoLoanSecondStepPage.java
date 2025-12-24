@@ -5,12 +5,12 @@ import org.openqa.selenium.By;
 
 public class AutoLoanSecondStepPage extends BasePage {
 
-    private final MobileElement manufacturerDropdownButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_brand_dropdown']"));
-    private final MobileElement modelDropdownButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_model_dropdown']"));
-    private final MobileElement releaseYearDropdownButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_year_dropdown']"));
-    private final MobileElement fuelTypeDropdown = new MobileElement(By.xpath("//*[@resource-id='auto_loan_fuel_type_dropdown']"));
-    private final MobileElement distanceInput = new MobileElement(By.xpath("//*[@resource-id='auto_loan_mileage_field']/*"));
-    private final MobileElement customsClearedDropdown = new MobileElement(By.xpath("//*[@resource-id='auto_loan_customs_dropdown']"));
+    private final MobileElement manufacturerDropdownButton = new MobileElement(By.xpath("//*[@*='auto_loan_brand_dropdown']"));
+    private final MobileElement modelDropdownButton = new MobileElement(By.xpath("//*[@*='auto_loan_model_dropdown']"));
+    private final MobileElement releaseYearDropdownButton = new MobileElement(By.xpath("//*[@*='auto_loan_year_dropdown']"));
+    private final MobileElement fuelTypeDropdown = new MobileElement(By.xpath("//*[@*='auto_loan_fuel_type_dropdown']"));
+    private final MobileElement distanceInput = new MobileElement(By.xpath("//*[@resource-id='auto_loan_mileage_field']/* | //*[@name='auto_loan_mileage_field']"));
+    private final MobileElement customsClearedDropdown = new MobileElement(By.xpath("//*[@*='auto_loan_customs_dropdown']"));
 
     public void clickManufacturerDropdownButton() {
         logStep("Clicking Manufacturer dropdown button");
@@ -19,7 +19,9 @@ public class AutoLoanSecondStepPage extends BasePage {
 
     public void selectOption(String carName) {
         logStep("Selecting option '" + carName + "' from dropdown");
-        MobileElement optionElement = new MobileElement(By.xpath(String.format("//*[@content-desc='%s']", carName)));
+        MobileElement optionElement = new MobileElement(
+                By.xpath(String.format("//*[@content-desc='%1$s' or @name='%1$s']", carName))
+        );
         optionElement.click();
     }
 

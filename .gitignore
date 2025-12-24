@@ -12,6 +12,7 @@ target/
 *.iml
 *.ipr
 /logs
+/log
 
 
 ### Eclipse ###
@@ -38,5 +39,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
 
 .idea

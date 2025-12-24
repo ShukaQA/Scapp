@@ -7,13 +7,12 @@ import org.openqa.selenium.Dimension;
 
 public class AutoLoanThirdStepPage extends BasePage {
 
-    private final MobileElement attachPhotoButton = new MobileElement(By.xpath("(//*[@content-desc='მიამაგრე ფოტო'])[1]"));
-    private final MobileElement phoneGalleryOption = new MobileElement(By.xpath("//*[@content-desc='ტელეფონის გალერეა']"));
-    private final MobileElement firstPhoto = new MobileElement(By.xpath("//*[contains(@resource-id, 'thumbnail')]"));
+    private final MobileElement attachPhotoButton = new MobileElement(By.xpath("(//*[@*='მიამაგრე ფოტო'])[1]"));
+    private final MobileElement phoneGalleryOption = new MobileElement(By.xpath("//*[@*='ტელეფონის გალერეა']"));
+    private final MobileElement firstPhoto = new MobileElement(By.xpath("//*[contains(@resource-id, 'thumbnail')] | //XCUIElementTypeImage[contains(@traits,'Image') and contains(@name,'Photo')]"));
     private final MobileElement requestLoanButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_continue_submit_button']"));
     private final MobileElement iSubmitLoanButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_credit_info_confirm_button']"));
-    private final MobileElement loanHistoryButton = new MobileElement(By.xpath("//*[@content-desc='განაცხადების ისტორია']"));
-    private final MobileElement loaderPath = new MobileElement(By.xpath("//*[contains(@resource-id, 'გთხოვთ დაელოდოთ')]"));
+    private final MobileElement loanHistoryButton = new MobileElement(By.xpath("//*[@*='განაცხადების ისტორია']"));
 
     private final MobileActions actions = new MobileActions();
 
@@ -42,16 +41,16 @@ public class AutoLoanThirdStepPage extends BasePage {
         loanHistoryButton.click();
     }
 
-    public void swipeUpScreen() {
+    public void swipeUpScreen(int speed) {
         logStep("Swiping up the screen.");
 
         Dimension size = driver.manage().window().getSize();
         actions.swipe(
                 size.width / 2,
-                (int) (size.height * 0.7),
+                (int) (size.height * 0.75),
                 size.width / 2,
                 10,
-                500
+                speed
         );
     }
 }

@@ -1,0 +1,20 @@
+{
+  "login": {
+    "username": "gaga",
+    "password": "123",
+    "pin": "1234"
+  },
+  "loan": {
+    "amount": "1000",
+    "filial": "პეკინი",
+    "paymentDuration": "5"
+  },
+  "car": {
+    "manufacturer": "BMW",
+    "model": "X5",
+    "year": "2004",
+    "fuel": "ბენზინი",
+    "distance": "13000",
+    "customsCleared": "არა"
+  }
+}

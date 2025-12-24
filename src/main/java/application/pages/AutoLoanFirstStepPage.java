@@ -5,12 +5,12 @@ import org.openqa.selenium.By;
 
 public class AutoLoanFirstStepPage extends BasePage {
 
-    private final MobileElement amountField = new MobileElement(By.xpath("//*[@resource-id='auto_loan_amount_field']/*"));
-    private final MobileElement durationField = new MobileElement(By.xpath("//*[@resource-id='auto_loan_duration_field']/*"));
-    private final MobileElement paymentDateButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_payment_date_dropdown']"));
-    private final MobileElement calendarOkayButton = new MobileElement(By.xpath("//*[@content-desc='კარგი']"));
-    private final MobileElement chooseFilialDropDown = new MobileElement(By.xpath("//*[@resource-id='auto_loan_branch_dropdown']"));
-    private final MobileElement continueBtn = new MobileElement(By.xpath("//*[@content-desc='გაგრძელება']"));
+    private final MobileElement amountField = new MobileElement(By.xpath("//*[@resource-id='auto_loan_amount_field']/* | //*[@name='auto_loan_amount_field']"));
+    private final MobileElement durationField = new MobileElement(By.xpath("//*[@resource-id='auto_loan_duration_field']/* | //*[@name='auto_loan_duration_field']"));
+    private final MobileElement paymentDateButton = new MobileElement(By.xpath("//*[@*='auto_loan_payment_date_dropdown']"));
+    private final MobileElement calendarOkayButton = new MobileElement(By.xpath("//*[@*='კარგი']"));
+    private final MobileElement chooseFilialDropDown = new MobileElement(By.xpath("//*[@*='auto_loan_branch_dropdown']"));
+    private final MobileElement continueBtn = new MobileElement(By.xpath("//*[@*='გაგრძელება']"));
 
     public void fillLoanAmountField(String amount) {
         logStep("Filling loan amount field with value: " + amount);
@@ -39,7 +39,7 @@ public class AutoLoanFirstStepPage extends BasePage {
 
     public void selectOption(String option) {
         logStep("Selecting option '" + option + "' from dropdown.");
-        MobileElement optionElement = new MobileElement(By.xpath(String.format("//*[@content-desc='%s']", option)));
+        MobileElement optionElement = new MobileElement(By.xpath(String.format("//*[@*='%s']", option)));
         optionElement.click();
     }
 

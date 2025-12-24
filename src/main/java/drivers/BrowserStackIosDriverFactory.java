@@ -1,8 +1,8 @@
 package drivers;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ConfigReader;
@@ -14,19 +14,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BrowserStackAndroidDriverFactory implements DriverFactory {
+public class BrowserStackIosDriverFactory implements DriverFactory {
 
-    private static final Logger log = LoggerFactory.getLogger(BrowserStackAndroidDriverFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(BrowserStackIosDriverFactory.class);
 
     @Override
     public AppiumDriver createDriver() throws MalformedURLException {
 
-        log.info("Initializing BrowserStack Android driver...");
+        log.info("Initializing BrowserStack iOS driver...");
 
         String buildName = ConfigReader.getOrDefault("BS_BUILD", "browserstack build") +
                 " - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-        // BrowserStack capabilities
         Map<String, Object> bstackOptions = new HashMap<>();
         bstackOptions.put("userName", ConfigReader.get("BROWSERSTACK_USERNAME"));
         bstackOptions.put("accessKey", ConfigReader.get("BROWSERSTACK_ACCESS_KEY"));
@@ -34,38 +33,31 @@ public class BrowserStackAndroidDriverFactory implements DriverFactory {
         bstackOptions.put("buildName", buildName);
         bstackOptions.put("local", false);
 
-        // Debug/logging capabilities
         bstackOptions.put("debug", true);
         bstackOptions.put("networkLogs", true);
         bstackOptions.put("video", true);
         bstackOptions.put("consoleLogs", "verbose");
         bstackOptions.put("appiumLogs", true);
-        bstackOptions.put("appProfiling", true);
 
-        log.debug("BrowserStack capabilities loaded: {}", bstackOptions);
+        log.debug("BrowserStack iOS capabilities loaded: {}", bstackOptions);
 
-        UiAutomator2Options options = new UiAutomator2Options()
-                .setApp(ConfigReader.get("BS_APP_ANDROID"))
+        XCUITestOptions options = new XCUITestOptions()
+                .setApp(ConfigReader.get("BS_APP_IOS"))
                 .setPlatformName(ConfigReader.get("PLATFORM_NAME"))
-                .setAutomationName(ConfigReader.get("AUTOMATION_NAME"))
-                .setDeviceName(ConfigReader.getOrDefault("BS_DEVICE_ANDROID", "Samsung Galaxy S22 Ultra"))
-                .setPlatformVersion(ConfigReader.getOrDefault("BS_OS_VERSION_ANDROID", "12.0"))
+                .setAutomationName("XCUITest")
+                .setDeviceName(ConfigReader.getOrDefault("BS_DEVICE_IOS", "iPhone 14"))
+                .setPlatformVersion(ConfigReader.getOrDefault("BS_OS_VERSION_IOS", "17"))
                 .amend("bstack:options", bstackOptions);
 
         log.info("Connecting to BrowserStack hub...");
 
-        AndroidDriver driver;
-
         try {
-            driver = new AndroidDriver(
-                    new URL(ConfigReader.get("BS_SERVER")),
-                    options);
-            log.info("BrowserStack Android driver created successfully.");
+            IOSDriver driver = new IOSDriver(new URL(ConfigReader.get("BS_SERVER")), options);
+            log.info("BrowserStack iOS driver created successfully.");
+            return driver;
         } catch (Exception e) {
-            log.error("Failed to initialize BrowserStack Android driver: {}", e.getMessage(), e);
+            log.error("Failed to initialize BrowserStack iOS driver: {}", e.getMessage(), e);
             throw e;
         }
-
-        return driver;
     }
 }

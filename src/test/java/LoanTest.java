@@ -1,59 +1,70 @@
 import application.pages.*;
+import models.AutoLoanTestPojo;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import utils.JsonReader;
 
-public class LoanTest {
+public class LoanTest extends BaseTest {
 
-    @Test
+    @Test()
     public void testLoan() throws InterruptedException {
+
+        AutoLoanTestPojo data = JsonReader.load("src/test/resources/testData/AutoLoanTestData.json", AutoLoanTestPojo.class);
+
         LoginPage loginPage = new LoginPage();
         RequestLoanPage requestLoanPage = new RequestLoanPage();
         AutoLoanFirstStepPage autoLoanFirstStepPage = new AutoLoanFirstStepPage();
         AutoLoanSecondStepPage autoLoanSecondStepPage = new AutoLoanSecondStepPage();
         AutoLoanThirdStepPage autoLoanThirdStepPage = new AutoLoanThirdStepPage();
 
-        autoLoanFirstStepPage.clickContinue();
-        autoLoanFirstStepPage.clickContinue();
-        loginPage.login("gaga", "123", "1234");
+        //Only for IOS
+        loginPage.clickAskAppNotToTrackIos();
 
+        autoLoanFirstStepPage.clickContinue();
+        autoLoanFirstStepPage.clickContinue();
+        loginPage.login(data.login.username, data.login.password, data.login.pin);
+
+        requestLoanPage.clickCloseAuthSetup();
         requestLoanPage.clickNotNowBtn();
         requestLoanPage.clickCloseAuthSetup();
 
         requestLoanPage.goToLoanPage();
         requestLoanPage.clickAutoLoan();
 
-        autoLoanFirstStepPage.fillLoanAmountField("1000");
+        autoLoanFirstStepPage.fillLoanAmountField(data.loan.amount);
         autoLoanFirstStepPage.clickChooseFilialDropDown();
-        autoLoanFirstStepPage.selectOption("პეკინი");
+        autoLoanFirstStepPage.selectOption(data.loan.filial);
         autoLoanFirstStepPage.openPaymentCalendar();
         autoLoanFirstStepPage.clickCalendarOkayButton();
-        autoLoanFirstStepPage.fillLoanPaymentDurationField("5");
+        autoLoanFirstStepPage.fillLoanPaymentDurationField(data.loan.paymentDuration);
         autoLoanFirstStepPage.clickContinue();
 
         autoLoanSecondStepPage.clickManufacturerDropdownButton();
-        autoLoanSecondStepPage.selectOption("BMW");
+        autoLoanSecondStepPage.selectOption(data.car.manufacturer);
         autoLoanSecondStepPage.clickModelDropdownButton();
-        autoLoanSecondStepPage.selectOption("X5");
+        autoLoanSecondStepPage.selectOption(data.car.model);
         autoLoanSecondStepPage.clickReleaseYearDropdownButton();
-        autoLoanFirstStepPage.selectOption("2004");
+        autoLoanFirstStepPage.selectOption(data.car.year);
         autoLoanSecondStepPage.clickFuelTypeDropdown();
-        autoLoanFirstStepPage.selectOption("ბენზინი");
-        autoLoanSecondStepPage.setDistanceInput("13000");
-        autoLoanThirdStepPage.swipeUpScreen();
+        autoLoanFirstStepPage.selectOption(data.car.fuel);
+        autoLoanSecondStepPage.setDistanceInput(data.car.distance);
+        autoLoanThirdStepPage.swipeUpScreen(500);
         autoLoanSecondStepPage.clickCustomsClearedDropdown();
-        autoLoanFirstStepPage.selectOption("არა");
+        autoLoanFirstStepPage.selectOption(data.car.customsCleared);
         autoLoanFirstStepPage.clickContinue();
 
         autoLoanThirdStepPage.attachPhotoFromGallery(4);
         Thread.sleep(5000);
-        autoLoanThirdStepPage.swipeUpScreen();
+        autoLoanThirdStepPage.swipeUpScreen(500);
         autoLoanThirdStepPage.attachPhotoFromGallery(4);
         autoLoanThirdStepPage.submitLoanRequest();
 
-        autoLoanThirdStepPage.swipeUpScreen();
+        autoLoanThirdStepPage.swipeUpScreen(350);
+        autoLoanThirdStepPage.swipeUpScreen(350);
         autoLoanThirdStepPage.clickISubmitLoanButton();
         autoLoanThirdStepPage.clickLoanHistoryButton();
         Assert.assertTrue(true);
 
     }
+
 }
