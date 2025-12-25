@@ -1,4 +1,7 @@
+package tests;
+
 import application.pages.*;
+import base.BaseTest;
 import models.AutoLoanTestPojo;
 import org.testng.Assert;
 import org.testng.annotations.Test;

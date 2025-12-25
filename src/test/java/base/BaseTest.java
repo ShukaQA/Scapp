@@ -1,3 +1,5 @@
+package base;
+
 import drivers.DriverManager;
 import io.appium.java_client.AppiumDriver;
 import org.slf4j.Logger;
