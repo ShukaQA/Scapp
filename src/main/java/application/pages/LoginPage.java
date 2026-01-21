@@ -1,7 +1,11 @@
 package application.pages;
 
 import application.elements.MobileElement;
+import core.DeviceInfo;
 import org.openqa.selenium.By;
+import utils.ConfigReader;
+
+import java.util.Objects;
 
 public class LoginPage extends BasePage {
 
@@ -33,9 +37,8 @@ public class LoginPage extends BasePage {
 
     public void clickAskAppNotToTrackIos() {
         logStep("Click Ask App Not To Track button on IOS popup");
-        try {
+        if(DeviceInfo.isIOS()) {
             allowTrackingIosPopup.click();
-        } catch (Exception ignored) {
         }
     }
 }

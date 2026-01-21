@@ -1,11 +1,11 @@
 package drivers;
 
+import core.DeviceInfo;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.ConfigReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,13 +23,13 @@ public class BrowserStackIosDriverFactory implements DriverFactory {
 
         log.info("Initializing BrowserStack iOS driver...");
 
-        String buildName = ConfigReader.getOrDefault("BS_BUILD", "browserstack build") +
+        String buildName = DeviceInfo.getBrowserStackBuild() +
                 " - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
         Map<String, Object> bstackOptions = new HashMap<>();
-        bstackOptions.put("userName", ConfigReader.get("BROWSERSTACK_USERNAME"));
-        bstackOptions.put("accessKey", ConfigReader.get("BROWSERSTACK_ACCESS_KEY"));
-        bstackOptions.put("projectName", ConfigReader.getOrDefault("BS_PROJECT", "Scapp BS Automation"));
+        bstackOptions.put("userName", DeviceInfo.getBrowserStackUsername());
+        bstackOptions.put("accessKey", DeviceInfo.getBrowserStackAccessKey());
+        bstackOptions.put("projectName", DeviceInfo.getBrowserStackProject());
         bstackOptions.put("buildName", buildName);
         bstackOptions.put("local", false);
 
@@ -42,17 +42,19 @@ public class BrowserStackIosDriverFactory implements DriverFactory {
         log.debug("BrowserStack iOS capabilities loaded: {}", bstackOptions);
 
         XCUITestOptions options = new XCUITestOptions()
-                .setApp(ConfigReader.get("BS_APP_IOS"))
-                .setPlatformName(ConfigReader.get("PLATFORM_NAME"))
+                .setApp(DeviceInfo.getBrowserStackAppIos())
+                .setPlatformName(DeviceInfo.getPlatformName())
                 .setAutomationName("XCUITest")
-                .setDeviceName(ConfigReader.getOrDefault("BS_DEVICE_IOS", "iPhone 14"))
-                .setPlatformVersion(ConfigReader.getOrDefault("BS_OS_VERSION_IOS", "17"))
+                .setDeviceName(DeviceInfo.getDeviceName())
+                .setPlatformVersion(DeviceInfo.getOsVersion())
                 .amend("bstack:options", bstackOptions);
 
         log.info("Connecting to BrowserStack hub...");
 
         try {
-            IOSDriver driver = new IOSDriver(new URL(ConfigReader.get("BS_SERVER")), options);
+            IOSDriver driver = new IOSDriver(
+                    new URL(DeviceInfo.getBrowserStackServer()),
+                    options);
             log.info("BrowserStack iOS driver created successfully.");
             return driver;
         } catch (Exception e) {

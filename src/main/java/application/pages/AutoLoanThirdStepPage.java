@@ -9,9 +9,9 @@ public class AutoLoanThirdStepPage extends BasePage {
 
     private final MobileElement attachPhotoButton = new MobileElement(By.xpath("(//*[@*='მიამაგრე ფოტო'])[1]"));
     private final MobileElement phoneGalleryOption = new MobileElement(By.xpath("//*[@*='ტელეფონის გალერეა']"));
-    private final MobileElement firstPhoto = new MobileElement(By.xpath("//*[contains(@resource-id, 'thumbnail')] | //XCUIElementTypeImage[contains(@traits,'Image') and contains(@name,'Photo')]"));
-    private final MobileElement requestLoanButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_continue_submit_button']"));
-    private final MobileElement iSubmitLoanButton = new MobileElement(By.xpath("//*[@resource-id='auto_loan_credit_info_confirm_button']"));
+    private final MobileElement firstPhoto = new MobileElement(By.xpath("//*[contains(@resource-id, 'thumbnail')] | //XCUIElementTypeImage[contains(@name,'Photo')]"));
+    private final MobileElement requestLoanButton = new MobileElement(By.xpath("//*[@*='auto_loan_continue_submit_button']"));
+    private final MobileElement iSubmitLoanButton = new MobileElement(By.xpath("//*[@*='auto_loan_credit_info_confirm_button']"));
     private final MobileElement loanHistoryButton = new MobileElement(By.xpath("//*[@*='განაცხადების ისტორია']"));
 
     private final MobileActions actions = new MobileActions();

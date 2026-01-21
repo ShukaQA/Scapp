@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="ParallelSuite" parallel="classes" thread-count="2">
 
-    <test name="MobileTests">
+<suite name="Sequential Mobile Suite">
+
+    <test name="Android - Samsung S22 Ultra">
+        <parameter name="PLATFORM_NAME" value="Android"/>
+        <parameter name="DEVICE" value="Samsung Galaxy S22 Ultra"/>
+        <parameter name="OS_VERSION" value="12.0"/>
+
         <classes>
-            <class name="test.LoanTest"/>
-            <class name="LogoutTest"/>
+            <class name="tests.LoanTest"/>
+        </classes>
+    </test>
+
+    <test name="iPhone 15">
+        <parameter name="PLATFORM_NAME" value="iOS"/>
+        <parameter name="DEVICE" value="iPhone 15"/>
+        <parameter name="OS_VERSION" value="17"/>
+
+        <classes>
+            <class name="tests.LoanTest"/>
         </classes>
     </test>
 
 </suite>
+

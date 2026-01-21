@@ -1,11 +1,11 @@
 package drivers;
 
+import core.DeviceInfo;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.ConfigReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,14 +23,14 @@ public class BrowserStackAndroidDriverFactory implements DriverFactory {
 
         log.info("Initializing BrowserStack Android driver...");
 
-        String buildName = ConfigReader.getOrDefault("BS_BUILD", "browserstack build") +
+        String buildName = DeviceInfo.getBrowserStackBuild() +
                 " - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
         // BrowserStack capabilities
         Map<String, Object> bstackOptions = new HashMap<>();
-        bstackOptions.put("userName", ConfigReader.get("BROWSERSTACK_USERNAME"));
-        bstackOptions.put("accessKey", ConfigReader.get("BROWSERSTACK_ACCESS_KEY"));
-        bstackOptions.put("projectName", ConfigReader.getOrDefault("BS_PROJECT", "Scapp BS Automation"));
+        bstackOptions.put("userName", DeviceInfo.getBrowserStackUsername());
+        bstackOptions.put("accessKey", DeviceInfo.getBrowserStackAccessKey());
+        bstackOptions.put("projectName", DeviceInfo.getBrowserStackProject());
         bstackOptions.put("buildName", buildName);
         bstackOptions.put("local", false);
 
@@ -45,11 +45,11 @@ public class BrowserStackAndroidDriverFactory implements DriverFactory {
         log.debug("BrowserStack capabilities loaded: {}", bstackOptions);
 
         UiAutomator2Options options = new UiAutomator2Options()
-                .setApp(ConfigReader.get("BS_APP_ANDROID"))
-                .setPlatformName(ConfigReader.get("PLATFORM_NAME"))
-                .setAutomationName(ConfigReader.get("AUTOMATION_NAME"))
-                .setDeviceName(ConfigReader.getOrDefault("BS_DEVICE_ANDROID", "Samsung Galaxy S22 Ultra"))
-                .setPlatformVersion(ConfigReader.getOrDefault("BS_OS_VERSION_ANDROID", "12.0"))
+                .setApp(DeviceInfo.getBrowserStackAppAndroid())
+                .setPlatformName(DeviceInfo.getPlatformName())
+                .setAutomationName(DeviceInfo.getAutomationName())
+                .setDeviceName(DeviceInfo.getDeviceName())
+                .setPlatformVersion(DeviceInfo.getOsVersion())
                 .amend("bstack:options", bstackOptions);
 
         log.info("Connecting to BrowserStack hub...");
@@ -58,7 +58,7 @@ public class BrowserStackAndroidDriverFactory implements DriverFactory {
 
         try {
             driver = new AndroidDriver(
-                    new URL(ConfigReader.get("BS_SERVER")),
+                    new URL(DeviceInfo.getBrowserStackServer()),
                     options);
             log.info("BrowserStack Android driver created successfully.");
         } catch (Exception e) {

@@ -11,7 +11,6 @@ public class LoanTest extends BaseTest {
 
     @Test()
     public void testLoan() throws InterruptedException {
-
         AutoLoanTestPojo data = JsonReader.load("src/test/resources/testData/AutoLoanTestData.json", AutoLoanTestPojo.class);
 
         LoginPage loginPage = new LoginPage();
@@ -27,9 +26,8 @@ public class LoanTest extends BaseTest {
         autoLoanFirstStepPage.clickContinue();
         loginPage.login(data.login.username, data.login.password, data.login.pin);
 
-        requestLoanPage.clickCloseAuthSetup();
-        requestLoanPage.clickNotNowBtn();
-        requestLoanPage.clickCloseAuthSetup();
+        OnboardingPopUpPage onboardingPopUpPage = new OnboardingPopUpPage();
+        onboardingPopUpPage.closeOnboardingPopups();
 
         requestLoanPage.goToLoanPage();
         requestLoanPage.clickAutoLoan();

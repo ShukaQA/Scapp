@@ -1,11 +1,11 @@
 package drivers;
 
+import core.DeviceInfo;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.ConfigReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,38 +16,35 @@ public class LocalDriverFactory implements DriverFactory {
 
     @Override
     public AppiumDriver createDriver() throws MalformedURLException {
-        log.info("Initializing local Appium Android driver...");
+        log.info("Initializing local Appium driver for platform {}", DeviceInfo.getPlatformName());
 
-        UiAutomator2Options options = new UiAutomator2Options();
+        UiAutomator2Options options = new UiAutomator2Options()
+                .setPlatformName(DeviceInfo.getPlatformName())
+                .setAutomationName(DeviceInfo.getAutomationName())
+                .setDeviceName(DeviceInfo.getDeviceName())
+                .setAppPackage(DeviceInfo.getAppPackage())
+                .setAppActivity(DeviceInfo.getAppActivity())
+                .setNoReset(DeviceInfo.isNoReset());
 
-        String platformName = ConfigReader.get("PLATFORM_NAME");
-        String automationName = ConfigReader.get("AUTOMATION_NAME");
-        String deviceName = ConfigReader.get("DEVICE_NAME");
-        String appPackage = ConfigReader.get("APP_PACKAGE");
-        String appActivity = ConfigReader.get("APP_ACTIVITY");
-        boolean noReset = Boolean.parseBoolean(ConfigReader.getOrDefault("NO_RESET", "false"));
-        String appiumServer = ConfigReader.get("APPIUM_SERVER");
-
-        log.debug("Loaded local capabilities: " +
-                        "platformName={}, automationName={}, deviceName={}, appPackage={}, appActivity={}, noReset={}",
-                platformName, automationName, deviceName, appPackage, appActivity, noReset
+        log.debug("Local capabilities: platformName={}, automationName={}, deviceName={}, appPackage={}, appActivity={}, noReset={}",
+                DeviceInfo.getPlatformName(),
+                DeviceInfo.getAutomationName(),
+                DeviceInfo.getDeviceName(),
+                DeviceInfo.getAppPackage(),
+                DeviceInfo.getAppActivity(),
+                DeviceInfo.isNoReset()
         );
 
-        options.setPlatformName(platformName);
-        options.setAutomationName(automationName);
-        options.setDeviceName(deviceName);
-        options.setAppPackage(appPackage);
-        options.setAppActivity(appActivity);
-        options.setNoReset(noReset);
-
-        log.info("Connecting to local Appium server: {}", appiumServer);
+        log.info("Connecting to local Appium server: {}", DeviceInfo.getAppiumServer());
 
         try {
-            AndroidDriver driver = new AndroidDriver(new URL(appiumServer), options);
-            log.info("Local Android driver created successfully.");
+            AndroidDriver driver = new AndroidDriver(
+                    new URL(DeviceInfo.getAppiumServer()),
+                    options);
+            log.info("Local driver created successfully.");
             return driver;
         } catch (Exception e) {
-            log.error("Failed to create local driver: {}", e.getMessage(), e);
+            log.error("Failed to create local driver", e);
             throw e;
         }
     }

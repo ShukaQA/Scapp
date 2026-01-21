@@ -1,5 +1,6 @@
 package drivers;
 
+import core.DeviceInfo;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -61,13 +62,13 @@ public class DriverManager {
         }
 
         try {
-            if (driver.get() instanceof AndroidDriver) {
-                String appPackage = ConfigReader.getOrDefault("APP_PACKAGE", "");
+            if (DeviceInfo.isAndroid()) {
+                String appPackage = DeviceInfo.getAppPackage();
                 if (!appPackage.isEmpty()) {
                     log.info("Terminating Android app: {}", appPackage);
                     ((AndroidDriver) driver.get()).terminateApp(appPackage);
                 }
-            } else if (driver.get() instanceof IOSDriver) {
+            } else if (DeviceInfo.isIOS()) {
                 String bundleId = ConfigReader.getOrDefault("BUNDLE_ID", "");
                 if (!bundleId.isEmpty()) {
                     log.info("Terminating iOS app: {}", bundleId);
