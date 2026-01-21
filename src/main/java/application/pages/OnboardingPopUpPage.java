@@ -3,9 +3,6 @@ package application.pages;
 import application.elements.MobileElement;
 import core.DeviceInfo;
 import org.openqa.selenium.By;
-import utils.ConfigReader;
-
-import java.util.Objects;
 
 public class OnboardingPopUpPage extends BasePage {
     private final MobileElement notNowBtn = new MobileElement(By.xpath("//*[@*='dashboard_notification_not_now_button']"));

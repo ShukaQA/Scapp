@@ -3,9 +3,6 @@ package application.pages;
 import application.elements.MobileElement;
 import core.DeviceInfo;
 import org.openqa.selenium.By;
-import utils.ConfigReader;
-
-import java.util.Objects;
 
 public class LoginPage extends BasePage {
 
